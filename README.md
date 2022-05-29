@@ -1,4 +1,4 @@
-# ![alt text](https://github.com/hmg65/msbank/blob/master/public/favicon.ico?raw=true) MS Bank - Gesture & Facial Recognition Enabled Banking Web App
+# ![](https://github.com/hmg65/msbank/blob/master/public/favicon.ico?raw=true) MS Bank - Gesture & Facial Recognition Enabled Banking Web App
 
 ## Submission for Microsoft Engage 2022 🌟
 
