@@ -14,10 +14,10 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import '../App.css' 
 import NavLogo from "../images/microsoftLogo.svg";
 
-//to validate mobile number
+//Validate mobile number
 const validatePhoneNumber = (number) => {
   const isValidPhoneNumber = validator.isMobilePhone(number,'en-IN');
-  console.log("Phone Number Valid: " + isValidPhoneNumber);
+  // console.log("Phone Number Valid: " + isValidPhoneNumber);
   return (isValidPhoneNumber);
  }
 
@@ -38,18 +38,19 @@ const Signup = () => {
 const dateCreated = new Date().toISOString();
 const dateUpdated = new Date().toISOString();
 
-
+  // Signup form submission handle
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
 
-
+    //Form is empty or not
     if(firstName === "" || lastName === "" || email === "" || mobileNumber === ""){
     
         setMessage({error : true, msg : "All fields are mandatory"});
         return;
     }
 
+    //Given mobile number is validation
     if(!validatePhoneNumber(mobileNumber))
     {
       setMessage({error : true, msg : "Enter valid mobile number"});
@@ -60,15 +61,8 @@ const dateUpdated = new Date().toISOString();
     setLoading(true);
     setMessage({error:false, msg:"Capture image to proceed further"});
       handleShow();
-
-  
-
-
   };
   
-  
-
-
     //Spinner states
     const [loading, setLoading] = useState(false); 
 
@@ -76,29 +70,29 @@ const dateUpdated = new Date().toISOString();
     const [show, setShow] = useState(false);
     const [modalCloseButton, setModalCloseButton] = useState(false);
 
+    //close face capture modal
     function handleClose() {
       setShow(false);
       setLoading(false);
     };
 
+    //open face capture modal
     const handleShow = () => setShow(true);
 
+    //disable close button of face capture modal
     function disableModalCloseButton() {
       setModalCloseButton(true);
     }
   
+    //enable close button of face capture modal
     function enableModalCloseButton() {
       setModalCloseButton(false);
     }
 
-  const styleObj = {
-    background: "#fafafa"
-  }
-
 
   return (
     <div>
-
+      {/* Navbar start*/}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow">
       <Link className="navbar-brand d-flex align-items-center ms-1" to="/signup">
           <img src={NavLogo} className="rounded nav_logo"/>
@@ -141,101 +135,83 @@ const dateUpdated = new Date().toISOString();
 
 
                             <Form onSubmit={handleSubmit} className="p-5 pt-2 m-auto">
-
-
-
-
-                            <div className="" >
-                              <div className="d-flex float-left fw-bold">
-                                <label className="form-label pt-2 ">First Name</label>
+                              <div className="" >
+                                <div className="d-flex float-left fw-bold">
+                                  <label className="form-label pt-2 ">First Name</label>
+                                </div>
+                                  
+                                  <Form.Group controlId="formFirstName">
+                                  <Form.Control
+                                    className="border-dark border-1 p-2 form-control-lg"
+                                    type="text" value = {firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                  />
+                                </Form.Group>
+                                
                               </div>
-                                
-                                <Form.Group controlId="formFirstName">
-                                <Form.Control
-                                  className="border-dark border-1 p-2 form-control-lg"
-                                  type="text" value = {firstName}
-                                  onChange={(e) => setFirstName(e.target.value)}
-                                />
-                              </Form.Group>
-                              
-                            </div>
 
+                              <div className="">
+                                <div className="d-flex float-left fw-bold">
+                                  <label className="form-label pt-4">Last Name</label>
+                                  </div>
 
+                                  <Form.Group controlId="formLastName">
+                                  <Form.Control
+                                    className="border-dark border-1 p-2 form-control-lg"
+                                    type="text"
+                                    value = {lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </div>
 
+                              <div className="">
+                                <div className="d-flex float-left fw-bold">
+                                  <label className="form-label pt-4">Email address</label>
+                                  </div>
 
+                                  <Form.Group controlId="formBasicEmail">
+                                  <Form.Control
+                                    className="border-dark border-1 p-2 form-control-lg"
+                                    type="email"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                  />
+                                </Form.Group>
+                              </div>
 
-                            <div className="">
-                              <div className="d-flex float-left fw-bold">
-                                <label className="form-label pt-4">Last Name</label>
-                                </div>
+                              <div className="">
+                                <div className="d-flex float-left fw-bold">
+                                  <label className="form-label pt-4">Mobile Number</label>
+                                  </div>
 
-
-                                <Form.Group controlId="formLastName">
-                                <Form.Control
-                                  className="border-dark border-1 p-2 form-control-lg"
-                                  type="text"
-                                  value = {lastName}
-                                  onChange={(e) => setLastName(e.target.value)}
-                                />
-                              </Form.Group>
-                            </div>
-
-
-
-
-                            <div className="">
-                              <div className="d-flex float-left fw-bold">
-                                <label className="form-label pt-4">Email address</label>
-                                </div>
-
-
-                                <Form.Group controlId="formBasicEmail">
-                                <Form.Control
-                                  className="border-dark border-1 p-2 form-control-lg"
-                                  type="email"
-                                  onChange={(e) => setEmail(e.target.value)}
-                                />
-                              </Form.Group>
-                            </div>
-
-
-
-                            <div className="">
-                              <div className="d-flex float-left fw-bold">
-                                <label className="form-label pt-4">Mobile Number</label>
-                                </div>
-
-
-                                <Form.Group controlId="formBasicMobileNumber">
-                                <Form.Control
-                                  className="border-dark border-1 p-2 form-control-lg"
-                                  type="number"
-                                  value = {mobileNumber}
-                                  onChange= { 
-                                    (e) => setMobileNumber(e.target.value)
-                                
-                                  }
-                                />
-                              </Form.Group>
-                            </div>
+                                  <Form.Group controlId="formBasicMobileNumber">
+                                  <Form.Control
+                                    className="border-dark border-1 p-2 form-control-lg"
+                                    type="number"
+                                    value = {mobileNumber}
+                                    onChange= { 
+                                      (e) => setMobileNumber(e.target.value)
+                                  
+                                    }
+                                  />
+                                </Form.Group>
+                              </div>
 
                            
                             
-                            <div className="d-flex flex-column mt-2"> 
-                              <div> 
-                                {loading ? <Spinner animation="border" className="mt-2" /> : <button className="btn btn-dark btn-lg btn-block" type="submit">
-                                  Sign up </button>} 
+                              <div className="d-flex flex-column mt-2"> 
+                                <div> 
+                                  {loading ? <Spinner animation="border" className="mt-2" /> : <button className="btn btn-dark btn-lg btn-block" type="submit">
+                                    Sign up </button>} 
+                                </div>
                               </div>
-                            </div>
 
                               <span className="d-none d-md-block d-lg-block d-xl-block">__________________________________________________</span>
                               
                               <div className="mt-2">
                                 Already have an account? <Link to="/">Log In</Link>
-                            </div> 
+                              </div> 
                             </Form>
-
-                                                       
 
                         </div>
                     </div>
@@ -282,7 +258,6 @@ const dateUpdated = new Date().toISOString();
 
    
   </Modal>
-  {/* ----------Modal---------- */}
 
     </div>
   );

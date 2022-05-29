@@ -62,6 +62,7 @@ const Home = () => {
     getData();
   }, [user, loading]);
 
+  //Retrieving data from firebase 
   const getData = async () => {
     const imgId = user.email.substring(0, user.email.lastIndexOf("@"));
     const userFace = ref(storage, `facedata/${imgId}`);
@@ -88,6 +89,7 @@ const Home = () => {
         );
       });
 
+      // Setting data to states
       data.forEach((doc) => {
         setBalance(doc.data().balance);
         setFirstName(doc.data().firstName);
@@ -111,6 +113,7 @@ const Home = () => {
   const date = new Date();
   const hour = date.getHours();
 
+  // style for buttons
   const cardStyle = {
     maxWidth: "20rem",
     minWidth: "20rem",
@@ -129,11 +132,13 @@ const Home = () => {
   const [amountError, setAmountError] = useState(false);
   const [txnId, setTxnId] = useState(null);
 
+  // closing txn receipt
   const handleReceiptClose = () => {
     setShowReceipt(false);
     setAmount(0);
   };
 
+  //showing txn receipt
   const handleReceiptShow = () => {
     setShowReceipt(true);
   };
@@ -141,10 +146,12 @@ const Home = () => {
   // ----------Deposit Modal states----------
   const [show, setShow] = useState(false);
 
+  // closing modal
   const handleClose = () => {
     setShow(false);
   };
 
+  // opening modal
   const handleShow = () => {
     setShow(true);
   };
@@ -154,10 +161,11 @@ const Home = () => {
 
   const dateTime = new Date().toISOString();
 
+  // sending deposit money to firebase
   const handleDeposit = async () => {
     const txn_id = Math.random().toString(36).substring(2, 15);
     setTxnId(txn_id);
-    console.log("Transaction number: " + txn_id);
+    // console.log("Transaction number: " + txn_id);
     const newTransaction = {
       amount,
       dateTime,
@@ -183,7 +191,7 @@ const Home = () => {
           collection(db, "transactions"),
           newTransaction
         );
-        console.log(res.id);
+        // console.log(res.id);
         getData();
         // add deposit money suceess message and close the modal.
         handleClose();
@@ -247,7 +255,7 @@ const Home = () => {
           </div>
         </div>
       </nav>
-      {/* ----------Navbar---------- */}
+     
 
       {/* ----------Dashbord---------- */}
       <div className="d-flex align-items-center">
@@ -393,102 +401,101 @@ const Home = () => {
               </div>
             </Link>
           </div>
+        </div>
+
+      
+
+        {/* ----------Deposit Money Modal---------- */}
+        <Modal
+          size="sm"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={show}
+          onHide={handleClose}
+          dialogClassName="modal-60h">
+
+          <Modal.Header closeButton>
+            <Modal.Title>
+              <p className="text-center">Deposit Money</p>
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <h5 className="">Enter Amount</h5>
+            <NumberFormat
+              thousandsGroupStyle="thousand"
+              prefix="₹ "
+              decimalSeparator="."
+              displayType="input"
+              type="text"
+              thousandSeparator={true}
+              allowNegative={false}
+              allowEmptyFormatting={false}
+              className="border-dark border-1 p-2 w-100"
+              onChange={(e) => {
+                setAmount(parseFloat(e.target.value.replace(/[,₹]/g, "")));
+              }}
+            />
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button className="btn deposit_button" onClick={handleDeposit}>
+              Deposit
+            </Button>
+            <Button className="btn cancel_button" onClick={handleClose}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        
+
+        {/* ----------Transaction info Modal---------- */}
+        <Modal
+          size="sm"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={showReceipt}
+          onHide={handleReceiptClose}
+          dialogClassName="modal-60h"
+        >
+          <Modal.Header>
+            <Modal.Title>
+              <p className="text-center">Deposit Transaction</p>
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            {amountError ? (
+              <Alert variant="danger">Amount cannot be zero</Alert>
+            ) : (
+              <Alert variant="success">
+                <center>
+                  <div>Transaction Successful!</div>
+                  <br />
+                  Transaction Amount:
+                  <NumberFormat
+                    thousandSeparator={true}
+                    thousandsGroupStyle="lakh"
+                    prefix={" ₹ "}
+                    displayType={"text"}
+                    value={amount}
+                  />
+                  <div>Transaction id: {txnId}</div>
+                </center>
+              </Alert>
+            )}
+          </Modal.Body>
+
+          <Modal.Footer className="text-center">
+            <Button
+              className="btn btn-success w-100"
+              onClick={handleReceiptClose}
+            >
+              OK
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
-
-      {/* ----------Dashbord---------- */}
-
-      {/* ----------Deposit Money Modal---------- */}
-      <Modal
-        size="sm"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        show={show}
-        onHide={handleClose}
-        dialogClassName="modal-60h"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <p className="text-center">Deposit Money</p>
-          </Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <h5 className="">Enter Amount</h5>
-          <NumberFormat
-            thousandsGroupStyle="thousand"
-            prefix="₹ "
-            decimalSeparator="."
-            displayType="input"
-            type="text"
-            thousandSeparator={true}
-            allowNegative={false}
-            allowEmptyFormatting={false}
-            className="border-dark border-1 p-2 w-100"
-            onChange={(e) => {
-              setAmount(parseFloat(e.target.value.replace(/[,₹]/g, "")));
-            }}
-          />
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button className="btn deposit_button" onClick={handleDeposit}>
-            Deposit
-          </Button>
-          <Button className="btn cancel_button" onClick={handleClose}>
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      {/* ----------Deposit Money Modal---------- */}
-
-      {/* ----------Transaction info Modal---------- */}
-      <Modal
-        size="sm"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        show={showReceipt}
-        onHide={handleReceiptClose}
-        dialogClassName="modal-60h"
-      >
-        <Modal.Header>
-          <Modal.Title>
-            <p className="text-center">Deposit Transaction</p>
-          </Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          {amountError ? (
-            <Alert variant="danger">Amount cannot be zero</Alert>
-          ) : (
-            <Alert variant="success">
-              <center>
-                <div>Transaction Successful!</div>
-                <br />
-                Transaction Amount:
-                <NumberFormat
-                  thousandSeparator={true}
-                  thousandsGroupStyle="lakh"
-                  prefix={" ₹ "}
-                  displayType={"text"}
-                  value={amount}
-                />
-                <div>Transaction id: {txnId}</div>
-              </center>
-            </Alert>
-          )}
-        </Modal.Body>
-
-        <Modal.Footer className="text-center">
-          <Button
-            className="btn btn-success w-100"
-            onClick={handleReceiptClose}
-          >
-            OK
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      {/* ----------Transaction info Modal---------- */}
-    </div>
     </div>
   );
 };

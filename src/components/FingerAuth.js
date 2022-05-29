@@ -31,6 +31,7 @@ function FingerAuth(props) {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
+  // assigning data received from payment page
   const senderEmail = props.senderEmail;
   const receiverEmail = props.receiverEmail;
   const amount = props.amount;
@@ -42,12 +43,14 @@ function FingerAuth(props) {
   const dateTime = new Date().toISOString();
   const txn_id = Math.random().toString(36).substring(2, 15);
 
+  // detect hands pose
   const runHandpose = async () => {
     const net = await handpose.load();
     //console.log("Handpose model loaded.");
 
+    //Generating random number for user to show using hand
     const rand_num = Math.floor(Math.random() * 5) + 1;
-    console.log(rand_num);
+    // console.log(rand_num);
     setNumber(rand_num);
 
     //  Loop and detect hands
@@ -102,17 +105,19 @@ function FingerAuth(props) {
               Math.max.apply(null, confidence)
             );
 
+            //Minimum confidence to recognize number from hand
             const thresoldConfidence = 8.41;
             const maxConfidence = Math.max(...confidence);
-            console.log(maxConfidence);
+            // console.log(maxConfidence);
 
             if (maxConfidence > thresoldConfidence) {
               const gesture_name = parseInt(
                 gesture.gestures[maxConfidenceAt].name
               );
 
-              console.log(gesture_name);
+              // console.log(gesture_name);
 
+              //balance debit or credit for txn
               if (gesture_name === rand_num) {
                 clearInterval(detectInterval);
                 setStateOfProcess("Success");
@@ -160,6 +165,7 @@ function FingerAuth(props) {
 
                   //console.log("Transaction Successful");
 
+                  //Payment successful redirect to receipt page
                   navigate("/Receipt", {
                     state: {
                       txnId: txn_id,
@@ -194,17 +200,6 @@ function FingerAuth(props) {
             alt=""
             src={images[number]}
             className="mx-auto d-block modal_gesture"
-            // style={{
-            //   position: "absolute",
-            //   marginLeft: "auto",
-            //   marginRight: "auto",
-            //   left: 400,
-            //   bottom: 500,
-            //   right: 0,
-            //   textAlign: "center",
-            //   width: 24,
-            //   height: 24,
-            // }}
           />
         ) : (
           ""
@@ -213,17 +208,6 @@ function FingerAuth(props) {
           audio={false}
           ref={webcamRef}
           className="webcam webcam_video_size"
-          // style={{
-          //   position: "absolute",
-          //   marginLeft: "auto",
-          //   marginRight: "auto",
-          //   left: 0,
-          //   right: 0,
-          //   textAlign: "center",
-          //   zindex: 9,
-          //   width: 640,
-          //   height: 480,
-          // }}
         />
 
         <div>
@@ -235,14 +219,7 @@ function FingerAuth(props) {
           ref={canvasRef}
           style={{
             position: "absolute",
-            // marginLeft: "auto",
-            // marginRight: "auto",
-            // left: 0,
-            // right: 0,
             textAlign: "center",
-            // zindex: 9,
-            // width: 640,
-            // height: 480,
           }}
         />
       </header>

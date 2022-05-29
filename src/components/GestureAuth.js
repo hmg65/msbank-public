@@ -15,6 +15,7 @@ import { max } from "@tensorflow/tfjs";
 
 function GestureAuth(props) {
 
+ // assigning data received from payment page 
  const senderEmail = props.senderEmail;
  const receiverEmail = props.receiverEmail;
  const amount = props.amount;
@@ -32,11 +33,12 @@ function GestureAuth(props) {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
   
+  //sates for process and emoji
   const [emoji, setEmoji] = useState(null);
   const images = { thumbs_up: thumbs_up, victory: victory };
   const [StateOfProcess, setStateOfProcess] = useState("");
 
-
+  // detect hands pose
   const runHandpose = async () => {
     const net = await handpose.load();
 
@@ -90,7 +92,7 @@ function GestureAuth(props) {
             const confidence = gesture.gestures.map(
               (prediction) => prediction.score
             );
-  console.log(confidence);
+            // console.log(confidence);
             
             const maxConfidenceAt = confidence.indexOf(
               Math.max.apply(null, confidence)
@@ -99,13 +101,13 @@ function GestureAuth(props) {
             
             
             const maxConfidence = Math.max(...confidence);
-console.log(maxConfidence);
-const gesture_name = gesture.gestures[maxConfidenceAt].name;
+            // console.log(maxConfidence);
+            const gesture_name = gesture.gestures[maxConfidenceAt].name;
 
             if(maxConfidence >= thresoldConfidence)
             {   
               setEmoji(gesture.gestures[maxConfidenceAt].name);
-              console.log(gesture_name);
+              // console.log(gesture_name);
   
               if(gesture_name === "thumbs_up"){
                 clearInterval(detectInterval);
@@ -137,9 +139,6 @@ const gesture_name = gesture.gestures[maxConfidenceAt].name;
               
   
      try {
-    
-      
-  
       
       const senderRef = doc(db,"users",senderDocId);
       await updateDoc(senderRef,  {balance: senderBalance - amount} );
@@ -150,37 +149,35 @@ const gesture_name = gesture.gestures[maxConfidenceAt].name;
       await addDoc(collection(db, "transactions"), newTransactionCredit);
       
       
-  
-   navigate("/Receipt", {state: 
-    {txnId : txn_id,
-     txnType : paymentMode,
-     amount : amount,
-     receiverEmail : receiverEmail,
-     dateTime : dateTime 
-  
-    }
-    });
-  
-  } catch (err) {
-    console.log({error:true, msg : err.message});
-  }
+      //Sending data to receipt page
+      navigate("/Receipt", {state: 
+        {txnId : txn_id,
+        txnType : paymentMode,
+        amount : amount,
+        receiverEmail : receiverEmail,
+        dateTime : dateTime 
+      
+        }
+        });
+      
+      } catch (err) {
+        console.log({error:true, msg : err.message});
+      }
   
       
   
-                  }else
-                { 
+    }else
+      { 
                   
-                  if(gesture_name === "victory"){
-                    console.log("i m here");
-                  props.handleCloseFirst();
-                  props.handleCloseSecond();}
-                }
+        if(gesture_name === "victory"){
+          console.log("i m here");
+        props.handleCloseFirst();
+        props.handleCloseSecond();}
+      }
               
-            }
-            
-            
-          }
-        }
+    }
+  }
+}
   
         
    
@@ -205,57 +202,40 @@ const gesture_name = gesture.gestures[maxConfidenceAt].name;
           audio={false}
           ref={webcamRef}
           className="webcam webcam_video_size"
-          // style={{
-          //   position: "absolute",
-          //   marginLeft: "auto",
-          //   marginRight: "auto",
-          //   left: 0,
-          //   right: 0,
-          //   textAlign: "center",
-          //   zindex: 9,
-          //   width: 640,
-          //   height: 480,
-          // }}
         />
-<div>
-            <div className="form-group mt-2 mb-2">
-              <h5>{StateOfProcess}</h5>
-            </div>
-            </div>
-        <canvas
-          ref={canvasRef}
+
+      <div>
+        <div className="form-group mt-2 mb-2">
+          <h5>{StateOfProcess}</h5>
+        </div>
+      </div>
+
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "absolute",
+          textAlign: "center",
+        }}
+      />
+        
+      {emoji !== null ? (
+      <img alt=""
+        src={images[emoji]}
           style={{
             position: "absolute",
-            // marginLeft: "auto",
-            // marginRight: "auto",
-            // left: 0,
-            // right: 0,
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 400,
+            bottom: 500,
+            right: 0,
             textAlign: "center",
-            // zindex: 9,
-            // width: 640,
-            // height: 480,
+            height: 100,
           }}
-        />
-        
-        {emoji !== null ? (
-          <img alt=""
-            src={images[emoji]}
-            style={{
-              position: "absolute",
-              marginLeft: "auto",
-              marginRight: "auto",
-              left: 400,
-              bottom: 500,
-              right: 0,
-              textAlign: "center",
-              height: 100,
-            }}
-          />
-        ) : (
+      />
+      ) : (
           ""
         )}
 
-      
       </header>
     </div>
   );
