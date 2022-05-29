@@ -41,7 +41,7 @@ function FaceAuth(props) {
     }
   };
 
-  //method for capture an image Destop
+  //Method to capture an image Destop
   const captureImage = React.useCallback(async () => {
     props.disableModalCloseButton();
     const imageSrc = await webcamRef.current.getScreenshot();
@@ -52,6 +52,7 @@ function FaceAuth(props) {
     uploadImage(imageSrc);
   }, [webcamRef, setImgSrc]);
 
+  // function to upload Image on Firebase and get URL
   async function uploadImage(imgSrc) {
     if (imgSrc !== null) {
       setStateOfProcess("Uploading...");
@@ -85,6 +86,7 @@ function FaceAuth(props) {
               url: url,
             };
 
+            // calling azure API to detect a FACE in image sent
             axios
               .post(
                 "https://engagefaceapi.cognitiveservices.azure.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400",
@@ -95,6 +97,7 @@ function FaceAuth(props) {
                 setuserId(res.data[0].faceId);
                 setStateOfProcess("Processing...");
 
+              // calling azure API to detect a FACE in image sent
                 axios
                   .post(
                     "https://engagefaceapi.cognitiveservices.azure.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400",
@@ -110,6 +113,7 @@ function FaceAuth(props) {
                       faceId2: res.data[0].faceId,
                     };
 
+                    // calling azure API to compare two images and see if there are identical faces in there
                     await axios
                       .post(
                         "https://engagefaceapi.cognitiveservices.azure.com/face/v1.0/verify",
@@ -132,7 +136,7 @@ function FaceAuth(props) {
                           props.enableModalCloseButton();
                         }
 
-                        console.log(loginObj);
+                       
                       })
                       .catch(() => {
                         setRetake(true);

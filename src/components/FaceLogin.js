@@ -27,9 +27,11 @@ function LoginFaceAuth(props) {
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);  
   
-  //Login
+  //Login 
   const { logIn } = useUserAuth();
 const email = props.email;
+
+// Function to do login and redirect to HOME PAGE
   const handleLogin = async (e) => {
     try {
       await logIn(props.email, props.password);
@@ -56,6 +58,7 @@ const email = props.email;
     uploadImage(imageSrc);
   }, [webcamRef, setImgSrc]);
 
+    // function to upload Image on Firebase and get URL
   async function uploadImage(imgSrc) {
      
     if (imgSrc !== null) {
@@ -98,7 +101,7 @@ const email = props.email;
                   url: url,
                 }; 
 
-
+               // calling azure API to detect a FACE in image sent
                 axios
                 .post(
                   "https://engagefaceapi.cognitiveservices.azure.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400",
@@ -109,6 +112,7 @@ const email = props.email;
                   setuserId(res.data[0].faceId);
                   setStateOfProcess("Processing...");
 
+              // calling azure API to detect a FACE in image sent
               axios
                 .post(
                   "https://engagefaceapi.cognitiveservices.azure.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400",
@@ -128,7 +132,7 @@ const email = props.email;
 
                   
                     
-        
+                  // calling azure API to compare two images and see if there are identical faces in there
                   await axios
                     .post(
                       "https://engagefaceapi.cognitiveservices.azure.com/face/v1.0/verify",
@@ -144,24 +148,19 @@ const email = props.email;
                         isIdentical : result.data.isIdentical,
                       };
 
+                      // if face matched then do login
                      if(loginObj.isIdentical===true)
                        { 
                         handleLogin();
                         
                       }else{
+                        // when face match fails
                         setRetake(true);
                         setLoading(false);
                         props.enableModalCloseButton();
                         setStateOfProcess("Face Match Failed. Try again.");
                       }
-                         
-                      
-        
-                      console.log(loginObj);
-        
-                      
-                            
-                      
+                                            
                     })
                     .catch(() => {
                       props.enableModalCloseButton();
@@ -171,12 +170,13 @@ const email = props.email;
                   });
                 })
                 .catch((err) => {
+                  // no face found in image
                   props.enableModalCloseButton();
                   setStateOfProcess("Face not found. Try again.");
                   setRetake(true);
                   setLoading(false);
                   setShow(true);
-                  // alert(err.message);
+              
                 });
               })
                 .catch((err) => {
@@ -185,7 +185,7 @@ const email = props.email;
                   setRetake(true);
                   setLoading(false);
                   setShow(true);
-                  // alert(err.message);
+           
                 });
             });
                
@@ -200,11 +200,10 @@ const email = props.email;
     
         
  } else {
+        // if no camera found in system
         props.enableModalCloseButton();
         setStateOfProcess("Camera not found");
         setLoading(false);
-        // show ? <Alert className="text-center bg-white text-danger border-0">Camera Not Found</Alert> : null;
-        // alert("First You Must Select An Image");
         }
 
     }

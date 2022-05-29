@@ -55,6 +55,8 @@ function RegisterFaceAuth(props) {
     uploadImage(imageSrc);
   }, [webcamRef, setImgSrc]);
 
+    // function to upload Image on Firebase and get URL
+
   async function uploadImage(imgSrc) {
     if (imgSrc !== null) {
       setStateOfProcess("Uploading...");
@@ -83,6 +85,7 @@ function RegisterFaceAuth(props) {
             url: urlFirebase,
           };
 
+           // calling azure API to detect a FACE in image sent
           axios
             .post(
               "https://engagefaceapi.cognitiveservices.azure.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400",
@@ -92,6 +95,7 @@ function RegisterFaceAuth(props) {
             .then(async (response) => {
               setuserId(response.data[0].faceId);
 
+              // if there is only one FACE detected in image 
               if (response.data.length === 1) {
                 const newUser = {
                   dateCreated,
@@ -110,6 +114,7 @@ function RegisterFaceAuth(props) {
 
                 navigate("/");
               } else {
+                // in case multiple faces detected
                 if (response.data.length > 1) {
                   props.enableModalCloseButton();
                   setStateOfProcess("Multiple Face Found. Please try again.");
@@ -121,11 +126,11 @@ function RegisterFaceAuth(props) {
             })
             .catch((err) => {
               props.enableModalCloseButton();
+              // if no face detected in image
               setStateOfProcess("Face not found. Try again.");
               setRetake(true);
               setLoading(false);
               setShow(true);
-              // alert(err.message);
             });
         });
       });

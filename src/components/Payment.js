@@ -54,6 +54,7 @@ const Payment = () => {
     }
   };
 
+  // call getData everytime user or loading is changed
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/");
@@ -89,36 +90,42 @@ const Payment = () => {
   const [showFirstModal, setShowFirstModal] = useState(false);
   const [showSecondModal, setShowSecondModal] = useState(false);
 
+  // to disable modal close button in modal footer
   function disableModalCloseButton() {
     setModalOneCloseButton(true);
   }
 
+  // to enable modal close button in modal footer
   function enableModalCloseButton() {
     setModalOneCloseButton(false);
   }
-
+  
+// to close first modal
   function handleCloseFirst() {
     setShowFirstModal(false);
     setLoadingFirst(false);
   }
-
+// to show first modal
   function handleShowFirst() {
     setShowFirstModal(true);
     setLoadingFirst(true);
   }
 
+// to close second modal
   function handleCloseSecond() {
     setShowSecondModal(false);
     setLoadingSecond(false);
     setLoadingFirst(false);
   }
 
+  // to show second modal
   function handleShowSecond() {
     setShowSecondModal(true);
     setShowFirstModal(false);
     setModalOneCloseButton(false);
   }
 
+  // function to clear all the fields on the payment page
   function clearField() {
     setReceiverEmail("");
     setPaymentMode("");
@@ -130,9 +137,8 @@ const Payment = () => {
     setLoadingFirst(false);
   }
 
+  // validation checks to ascertain Payment Type 
   function handlePayNow() {
-    console.log("Amount passed: " + amount);
-    console.log("Amount type: " + typeof amount);
 
     if (balance < parseFloat(amount.replace(/[,₹]/g, ""))) {
       setError("Insufficient Balance");
@@ -160,11 +166,13 @@ const Payment = () => {
     }
   }
 
+  // check if user is not sending to himself only
   const handleVerify = async () => {
     if (user.email === receiverEmail) {
       setError("Transfer to Same Account not allowed.");
     } else {
       try {
+        // get data of email ID entered by user to send money
         const q = query(
           collection(db, "users"),
           where("email", "==", receiverEmail)
@@ -174,7 +182,6 @@ const Payment = () => {
 
         if (data.docs.length > 0) {
           data.forEach((doc) => {
-            // print the name of the reciver
             setVerify(true);
             setReceiverFirstName(doc.data().firstName);
             setReceiverLastName(doc.data().lastName);
