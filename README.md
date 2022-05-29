@@ -1,8 +1,8 @@
-# ![alt text](https://github.com/hmg65/msbank/blob/master/public/favicon.ico?raw=true)  MS Bank - Gesture & Facial Recognition based Banking Web App
+# ![alt text](https://github.com/hmg65/msbank/blob/master/public/favicon.ico?raw=true) MS Bank - Gesture & Facial Recognition Enabled Banking Web App
 
-## Submission for Microsoft Engage 2021 🌟
+## Submission for Microsoft Engage 2022 🌟
 
-[![Generic badge](https://img.shields.io/badge/view-demo-blue?style=for-the-badge&label=View%20Demo%20Video)](https://youtu.be/OKKK1GOnlI)
+[![Generic badge](https://img.shields.io/badge/view-demo-blue?style=for-the-badge&label=View%20Demo%20Video)](https://youtu.be/6WKk-26gVIg)
 
 ## Deployed Application Link
 
@@ -72,29 +72,29 @@ Now comes the most exciting stuff, this project will also consume **Tensorflow J
 
 ## Libaries Used
 
-* **axios** : Promise based HTTP client for the browser and node.js
+- **axios** : Promise based HTTP client for the browser and node.js
 
-* **tensorflow-models/handpose** : A palm detector and a hand-skeleton finger tracking model. It predicts 21 3D hand keypoints per detected hand.
+- **tensorflow-models/handpose** : A palm detector and a hand-skeleton finger tracking model. It predicts 21 3D hand keypoints per detected hand.
 
-* **fingerpose** : Finger gesture classifier for hand landmarks detected by MediaPipe Handpose. It detects gestures like "Victory" ✌️ or "Thumbs Up" 👍 inside a source image or video stream.
+- **fingerpose** : Finger gesture classifier for hand landmarks detected by MediaPipe Handpose. It detects gestures like "Victory" ✌️ or "Thumbs Up" 👍 inside a source image or video stream.
 
-* **validator** : This library validates and sanitizes strings only.
-If you're not sure if your input is a string, coerce it using input + ''. Passing anything other than a string will result in an error.
+- **validator** : This library validates and sanitizes strings only.
+  If you're not sure if your input is a string, coerce it using input + ''. Passing anything other than a string will result in an error.
 
-* **bootstrap** : Bootstrap is a free and open-source CSS framework directed at responsive, mobile-first front-end web development. It contains HTML, CSS and JavaScript-based design templates for typography, forms, buttons, navigation, and other interface components.
+- **bootstrap** : Bootstrap is a free and open-source CSS framework directed at responsive, mobile-first front-end web development. It contains HTML, CSS and JavaScript-based design templates for typography, forms, buttons, navigation, and other interface components.
 
-* **react-bootstrap** : React-Bootstrap is a component-based library that provides native Bootstrap components as pure React components.
+- **react-bootstrap** : React-Bootstrap is a component-based library that provides native Bootstrap components as pure React components.
 
-* **react-countdown** : A customizable countdown component for React
+- **react-countdown** : A customizable countdown component for React
 
-* **react-number-format** : React component to format number in an input or as a text
+- **react-number-format** : React component to format number in an input or as a text
 
-* **react-webcam** : Webcam component for React to access webcam and campture images and videos
+- **react-webcam** : Webcam component for React to access webcam and campture images and videos
 
 ## Useful Links
 
 - [Deployed Website](https://msbank.vercel.app/)
-- [Demo Video](https://youtu.be/OKKK1GOnlI)
+- [Demo Video](https://youtu.be/6WKk-26gVIg)
 - [Ideation Document](https://docs.google.com/document/d/1elNAjPtOOx5mjmiPdku7XgqDaM9YQW5jG4980_XLdhg/edit?usp=sharing)
 
 ## Need help?
@@ -102,4 +102,3 @@ If you're not sure if your input is a string, coerce it using input + ''. Passin
 Feel free to contact me on [LinkedIn](https://www.linkedin.com/in/hmg/)
 
 [![Instagram](https://img.shields.io/badge/Instagram-follow-purple.svg?logo=instagram&logoColor=white)](https://www.instagram.com/_hmg65/) [![Twitter](https://img.shields.io/badge/Twitter-follow-blue.svg?logo=twitter&logoColor=white)](https://twitter.com/_hmg65)
-
