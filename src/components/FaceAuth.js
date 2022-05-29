@@ -31,9 +31,6 @@ function FaceAuth(props) {
 
   const handleAuth = async (e) => {
     try {
-      //await logIn(props.email, props.password);
-
-      // navigate("/home");
       props.handleShowSecond();
       props.handleCloseFirst();
     } catch (err) {
