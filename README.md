@@ -25,7 +25,7 @@ https://msbank.vercel.app/
 1. Allow **permissions** for camera when asked.
 2. In case any **anything doesnot load** it is probably due to server overload, **REFRESH** the window to solve this.
 3. Make sure the **URL** is starting with https.
-4. While **sending moeny to another user** make sure you follow the process in sequence as described in the banner on payment page or else it’ll show an error.
+4. While **sending money to another user** make sure you follow the process in sequence as described in the banner on payment page or else it’ll show an error.
 5. While doing the **Thumbs Up Gesture 👍** on the payment page (for amount less than Rs. 10,000), if the model is not recognizing the gesture, try tilting the hand little bit.
 
 ## Research around the Idea
