@@ -88,7 +88,7 @@ function RegisterFaceAuth(props) {
            // calling azure API to detect a FACE in image sent
           axios
             .post(
-              "https://engagefaceapi.cognitiveservices.azure.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400",
+              "https://msbankfaceapi.cognitiveservices.azure.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400",
               newImageDetails,
               config
             )
