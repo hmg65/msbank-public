@@ -1,4 +1,4 @@
-# ![](https://github.com/hmg65/msbank/blob/master/public/favicon.ico?raw=true) MS Bank - Gesture & Facial Recognition Enabled Banking Web App (Demo Not Working - WORK IN PROGRESS)
+# ![](https://github.com/hmg65/msbank/blob/master/public/favicon.ico?raw=true) MS Bank - Gesture & Facial Recognition Enabled Banking Web App
 
 ## Submission for Microsoft Engage 2022 🌟
 
@@ -66,7 +66,7 @@ That’s why, in this engage program, I decided to make an **Banking Web App** t
 
 Last but not least, let’s talk about the tech stack I’ll be using to build upon my idea. For the frontend part, I am using **React JS** mainly and **Bootstrap** to make it more aesthetic and soothing to the eyes. For Login & Signup Functionality in the backend area, I’ve used Firebase to verify and store the credentials.
 
-Coming to Face recognition, I am using **Microsoft Azure Face API** to detect a face in the image (captured through webcam or mobile camera) and also to recognize the face during any authentication process involved.
+Coming to Face recognition, I am using **KAIROS Face API** to detect a face in the image (captured through webcam or mobile camera) and also to recognize the face during any authentication process involved.
 
 Now comes the most exciting stuff, this project will also consume **Tensorflow JS** and **Fingerpose & Handpose** library to detect a hand and count fingers raised by the user (needed in Finger-based OTP functionality).
 
