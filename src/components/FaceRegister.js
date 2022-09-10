@@ -77,26 +77,27 @@ function RegisterFaceAuth(props) {
           const config = {
             headers: {
               "Content-Type": "application/json",
-              "Ocp-Apim-Subscription-Key": process.env.REACT_APP_AZURE_API_KEY,
+              "app_id": process.env.REACT_APP_KAIROS_APP_ID,
+              "app_key": process.env.REACT_APP_KAIROS_APP_KEY
             },
           };
 
           const newImageDetails = {
-            url: urlFirebase,
+            image: urlFirebase,
           };
 
            // calling azure API to detect a FACE in image sent
           axios
             .post(
-              "https://msbankfaceapi.cognitiveservices.azure.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400",
+              "https://api.kairos.com/detect",
               newImageDetails,
               config
             )
             .then(async (response) => {
-              setuserId(response.data[0].faceId);
+              setuserId(response.data.images.length);
 
               // if there is only one FACE detected in image 
-              if (response.data.length === 1) {
+              if (response.data.images.length === 1) {
                 const newUser = {
                   dateCreated,
                   dateUpdated,
@@ -115,7 +116,7 @@ function RegisterFaceAuth(props) {
                 navigate("/");
               } else {
                 // in case multiple faces detected
-                if (response.data.length > 1) {
+                if (response.data.images.length > 1) {
                   props.enableModalCloseButton();
                   setStateOfProcess("Multiple Face Found. Please try again.");
                   setRetake(true);

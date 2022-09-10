@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-rekognition": "^3.162.0",
     "@tensorflow-models/handpose": "^0.0.7",
     "@tensorflow/tfjs": "^3.18.0",
     "@testing-library/jest-dom": "^5.16.4",

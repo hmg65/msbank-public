@@ -70,50 +70,53 @@ function FaceAuth(props) {
           const config = {
             headers: {
               "Content-Type": "application/json",
-              "Ocp-Apim-Subscription-Key": process.env.REACT_APP_AZURE_API_KEY,
+              "app_id": process.env.REACT_APP_KAIROS_APP_ID,
+              "app_key": process.env.REACT_APP_KAIROS_APP_KEY
             },
           };
 
           const newImage1Details = {
-            url: urlFirebase,
+            image: urlFirebase,
           };
 
           getDownloadURL(userFace).then((url) => {
             const newImage2Details = {
-              url: url,
+              image: url,
             };
 
+            
             // calling azure API to detect a FACE in image sent
             axios
               .post(
-                "https://msbankfaceapi.cognitiveservices.azure.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400",
+                "https://api.kairos.com/detect",
                 newImage2Details,
                 config
               )
               .then(async (res) => {
-                setuserId(res.data[0].faceId);
+                setuserId(res.data.images.length);
                 setStateOfProcess("Processing...");
 
-              // calling azure API to detect a FACE in image sent
+           
+                // calling azure API to detect a FACE in image sent
                 axios
                   .post(
-                    "https://msbankfaceapi.cognitiveservices.azure.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400",
+                    "https://api.kairos.com/detect",
                     newImage1Details,
                     config
                   )
                   .then(async (response) => {
-                    setuserId(response.data[0].faceId);
+                    setuserId(response.data.images.length);
                     setStateOfProcess("Processing...");
 
                     const newUserLogin = {
-                      faceId1: response.data[0].faceId,
-                      faceId2: res.data[0].faceId,
+                      source_image: urlFirebase,
+                      target_image: url,
                     };
 
                     // calling azure API to compare two images and see if there are identical faces in there
                     await axios
                       .post(
-                        "https://msbankfaceapi.cognitiveservices.azure.com/face/v1.0/verify",
+                        "https://api.kairos.com/compare",
                         newUserLogin,
                         config
                       )
@@ -121,10 +124,10 @@ function FaceAuth(props) {
                         setStateOfProcess("Please Wait...");
 
                         const loginObj = {
-                          isIdentical: result.data.isIdentical,
+                          confidence: result.data.MatchedFaces[0].confidence,
                         };
 
-                        if (loginObj.isIdentical === true) {
+                        if (loginObj.confidence > 0.8) {
                           handleAuth();
                         } else {
                           setRetake(true);
@@ -132,8 +135,6 @@ function FaceAuth(props) {
                           setStateOfProcess("Face Match Failed. Try again.");
                           props.enableModalCloseButton();
                         }
-
-                       
                       })
                       .catch(() => {
                         setRetake(true);
