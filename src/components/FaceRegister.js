@@ -85,7 +85,6 @@ function RegisterFaceAuth(props) {
           const newImageDetails = {
             image: urlFirebase,
           };
-
            // calling azure API to detect a FACE in image sent
           axios
             .post(
