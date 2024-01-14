@@ -15,14 +15,14 @@ function App() {
     <div>
           <UserAuthContextProvider>
             <Routes>
-              {/* <Route
+              <Route
                 path="/home"
                 element={
                   <ProtectedRoute>
                     <Home />
                   </ProtectedRoute>
                 }
-              /> */}
+              />
 
               <Route
                 path="/payment"
@@ -61,9 +61,9 @@ function App() {
                 }
               />
 
-              <Route path="/" element={<Payment />} />
+              {/* <Route path="/payment" element={<Payment />} /> */}
               <Route path="/signup" element={<Signup />} />
-              {/* <Route path="/home" element={<Home />} /> */}
+              <Route path="/" element={<Login />} />
             </Routes>
           </UserAuthContextProvider>
         </div>

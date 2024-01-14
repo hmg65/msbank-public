@@ -367,9 +367,9 @@ const Payment = () => {
                     </div>
                     
                     {/* Amount in XRP */}
-                    <div className="pt-4" disabled>
+                    {/* <div className="pt-4" disabled>
                       <input className="border-1 rounded p-2 w-100 shadow-none" type="text" disabled></input>
-                    </div>
+                    </div> */}
 
                     <div className="container">
                       <div className="row mt-3">

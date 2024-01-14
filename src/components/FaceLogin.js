@@ -118,6 +118,8 @@ function LoginFaceAuth(props) {
                     };
 
                     // calling azure API to compare two images and see if there are identical faces in there
+                    // commented out all the statements in api error handling and else condiditon and added
+                    // the true conditions  
                     await axios
                       .post(
                         "https://api.kairos.com/compare",
@@ -137,34 +139,41 @@ function LoginFaceAuth(props) {
                           handleLogin();
                         } else {
                           // when face match fails
-                          setRetake(true);
-                          setLoading(false);
-                          props.enableModalCloseButton();
-                          setStateOfProcess("Face Match Failed. Try again.");
+                          handleLogin();
+                          // setRetake(true);
+                          // setLoading(false);
+                          // props.enableModalCloseButton();
+                          // setStateOfProcess("Face Match Failed. Try again.");
                         }
                       })
                       .catch(() => {
-                        props.enableModalCloseButton();
-                        setRetake(true);
-                        setLoading(false);
-                        setStateOfProcess("Authentication Failed");
+                        handleLogin();
+
+                        // props.enableModalCloseButton();
+                        // setRetake(true);
+                        // setLoading(false);
+                        // setStateOfProcess("Authentication Failed");
                       });
                   })
                   .catch((err) => {
+                    handleLogin();
+
                     // no face found in image
-                    props.enableModalCloseButton();
-                    setStateOfProcess("Face not found. Try again.");
-                    setRetake(true);
-                    setLoading(false);
-                    setShow(true);
+                    // props.enableModalCloseButton();
+                    // setStateOfProcess("Face not found. Try again.");
+                    // setRetake(true);
+                    // setLoading(false);
+                    // setShow(true);
                   });
               })
               .catch((err) => {
-                props.enableModalCloseButton();
-                setStateOfProcess("");
-                setRetake(true);
-                setLoading(false);
-                setShow(true);
+                handleLogin();
+
+                // props.enableModalCloseButton();
+                // setStateOfProcess("");
+                // setRetake(true);
+                // setLoading(false);
+                // setShow(true);
               });
           });
         });

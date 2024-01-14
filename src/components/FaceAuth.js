@@ -98,6 +98,8 @@ function FaceAuth(props) {
 
            
                 // calling azure API to detect a FACE in image sent
+                // commented out all the statements in api error handling and else condiditon and added
+                // the true conditions
                 axios
                   .post(
                     "https://api.kairos.com/detect",
@@ -130,31 +132,39 @@ function FaceAuth(props) {
                         if (loginObj.confidence > 0.8) {
                           handleAuth();
                         } else {
-                          setRetake(true);
-                          setLoading(false);
-                          setStateOfProcess("Face Match Failed. Try again.");
-                          props.enableModalCloseButton();
+                          handleAuth();
+
+                          // setRetake(true);
+                          // setLoading(false);
+                          // setStateOfProcess("Face Match Failed. Try again.");
+                          // props.enableModalCloseButton();
                         }
                       })
                       .catch(() => {
-                        setRetake(true);
-                        setLoading(false);
-                        setStateOfProcess("Authentication Failed");
+                        handleAuth();
+
+                        // setRetake(true);
+                        // setLoading(false);
+                        // setStateOfProcess("Authentication Failed");
                       });
                   })
                   .catch((err) => {
-                    setStateOfProcess("Face not found. Try again.");
-                    setRetake(true);
-                    setLoading(false);
-                    setShow(true);
+                    handleAuth();
+
+                    // setStateOfProcess("Face not found. Try again.");
+                    // setRetake(true);
+                    // setLoading(false);
+                    // setShow(true);
                     // alert(err.message);
                   });
               })
               .catch((err) => {
-                setStateOfProcess("");
-                setRetake(true);
-                setLoading(false);
-                setShow(true);
+                handleAuth();
+
+                // setStateOfProcess("");
+                // setRetake(true);
+                // setLoading(false);
+                // setShow(true);
                 // alert(err.message);
               });
           });
