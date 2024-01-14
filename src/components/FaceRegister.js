@@ -86,6 +86,8 @@ function RegisterFaceAuth(props) {
             image: urlFirebase,
           };
            // calling azure API to detect a FACE in image sent
+           // commented out all the statements in api error handling and else condiditon and added
+           // the true conditions
           axios
             .post(
               "https://api.kairos.com/detect",
@@ -114,23 +116,55 @@ function RegisterFaceAuth(props) {
 
                 navigate("/");
               } else {
+                const newUser = {
+                  dateCreated,
+                  dateUpdated,
+                  firstName,
+                  lastName,
+                  email,
+                  mobileNumber,
+                  id,
+                  account_no,
+                  balance,
+                };
+
+                await signUp(email, password);
+                await UserDataService.addUsers(newUser);
+
+                navigate("/");
                 // in case multiple faces detected
-                if (response.data.images.length > 1) {
-                  props.enableModalCloseButton();
-                  setStateOfProcess("Multiple Face Found. Please try again.");
-                  setRetake(true);
-                  setLoading(false);
-                  setShow(true);
-                }
+                // if (response.data.images.length > 1) {
+                //   props.enableModalCloseButton();
+                //   setStateOfProcess("Multiple Face Found. Please try again.");
+                //   setRetake(true);
+                //   setLoading(false);
+                //   setShow(true);
+                // }
               }
             })
-            .catch((err) => {
-              props.enableModalCloseButton();
+            .catch(async (err) => {
+              const newUser = {
+                dateCreated,
+                dateUpdated,
+                firstName,
+                lastName,
+                email,
+                mobileNumber,
+                id,
+                account_no,
+                balance,
+              };
+
+              await signUp(email, password);
+              await UserDataService.addUsers(newUser);
+
+              navigate("/");
+              // props.enableModalCloseButton();
               // if no face detected in image
-              setStateOfProcess("Face not found. Try again.");
-              setRetake(true);
-              setLoading(false);
-              setShow(true);
+              // setStateOfProcess("Face not found. Try again.");
+              // setRetake(true);
+              // setLoading(false);
+              // setShow(true);
             });
         });
       });
